@@ -1,5 +1,34 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+  h1.mb-4= title
+  ul.list-group.mb-4
+    if path === '/'
+      li.list-group-item.active 中央値順
+      li.list-group-item
+        a(href="/order/releaseDate") 登録日順
+    else
+      li.list-group-item
+        a(href="/") 中央値順
+      li.list-group-item.active 登録日順
+  table.table.table-bordered
+    tr
+      th ゲーム名
+      th ブランド名
+      th 中央値
+      th 標準偏差
+      th データ数
+      th リンク
+      th リリース日
+    each game in games
+      tr
+        td
+          a(href=`https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/game.php?game=${game.game_id}`) #{game.gamename}
+        td
+          a(href=`https://erogamescape.dyndns.org/~ap2/ero/toukei_kaiseki/brand.php?brand=${game.brand_id}`) #{game.brandname}
+        td #{game.median}
+        td #{game.stddev}
+        td #{game.count}
+        td
+          a(href=`https://oo.parts/title/${game.ooparts_id}`, target="_blank") OOparts
+        td.nowrap #{game.release_date}

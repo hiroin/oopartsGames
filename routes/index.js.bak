@@ -1,0 +1,63 @@
+var express = require('express');
+var router = express.Router();
+const loader = require('../models/loader');
+const Client = loader.client;
+Client.connect();
+
+router.get('/', (req, res, next) => {
+  const sql = (function(param) {return param[0].replace(/\n|\r/g, " ");})`
+SELECT
+    g.id AS game_id
+    ,g.gamename
+    ,g.model
+    ,g.erogame
+    ,g.sellday
+    ,g.shoukai
+    ,g.median
+    ,g.count2 AS COUNT
+    ,g.stdev AS stddev
+    ,b.id AS brand_id
+    ,b.brandname
+    ,b.kind
+    ,b.lost
+    ,b.kind
+FROM
+    gamelist g
+    INNER JOIN
+        brandlist b
+    ON  g.brandname = b.id
+    INNER JOIN
+        ooparts_game og
+    ON  g.id = og.game
+    INNER JOIN
+        ooparts o
+    ON  o.id = og.ooparts
+WHERE
+    1 = 1
+AND g.sellday >= $1
+AND g.sellday <= $2
+AND o.closing_date > NOW()
+ORDER BY
+    g.median DESC NULLS LAST
+    ,g.count2 DESC NULLS LAST
+    ,g.stdev DESC NULLS LAST
+    ,g.id
+LIMIT 10
+`
+  const params = ['1900-01-01','2050-01-01'];
+  Client.query(sql, params, (query_err, query_res) => {
+    if (query_err) {
+      console.log(query_err);
+    } else {
+      console.log(query_res.rowCount);
+      let Games;
+      Games = query_res.rows;
+      res.render('index', { title: 'OOpartsゲーム一覧', games: Games });
+      for (const row of query_res.rows) {
+        console.log(row.gamename);
+      }
+    }
+  });
+});
+
+module.exports = router;
