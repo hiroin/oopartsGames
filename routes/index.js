@@ -4,8 +4,6 @@ const Ooparts = require('../models/ooparts');
 
 router.get('/test', (req, res, next) => {
   res.render('test', { title: 'OOpartsゲーム一覧' });
-  console.info('/test OK');
-
   const axios = require('axios');
   axios.get('http://133.242.5.152/').then(res => {
     console.log(res.data);
