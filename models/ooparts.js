@@ -4,7 +4,6 @@ const Client = loader.client;
 Client.connect();
 
 function fetchOOpartsGames(order = 'default') {
-  console.info(Client);
   return new Promise((resolve, reject) => {
     const sqlFetchOopartsGames = {
       orderColumn: order,
