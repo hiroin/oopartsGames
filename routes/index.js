@@ -4,6 +4,13 @@ const Ooparts = require('../models/ooparts');
 
 router.get('/test', (req, res, next) => {
   res.render('test', { title: 'OOpartsゲーム一覧' });
+  console.log('/test OK');
+
+  const axios = require('axios');
+  axios.get('https://erogamescape.dyndns.org/').then(res => {
+    console.log(res.data);
+  });
+
 });
 
 router.get('/', (req, res, next) => {
