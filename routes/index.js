@@ -7,7 +7,7 @@ router.get('/test', (req, res, next) => {
   console.info('/test OK');
 
   const axios = require('axios');
-  axios.get('https://133.242.5.152/').then(res => {
+  axios.get('http://133.242.5.152/').then(res => {
     console.log(res.data);
   });
 
