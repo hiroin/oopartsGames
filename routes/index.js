@@ -7,7 +7,7 @@ router.get('/test', (req, res, next) => {
   console.info('/test OK');
 
   const axios = require('axios');
-  axios.get('https://erogamescape.dyndns.org/').then(res => {
+  axios.get('https://www.yahoo.co.jp/').then(res => {
     console.log(res.data);
   });
 
